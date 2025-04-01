@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro - AXIUM</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <h1>Registro</h1>
+  <form id="registerForm">
+    <input type="text" placeholder="Usuario" id="username" required />
+    <input type="password" placeholder="Contraseña" id="password" required />
+    <button type="submit">Registrarse</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('https://axium-production-3a9c.up.railway.app/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert('Usuario registrado. Ahora puedes iniciar sesión.');
+        window.location.href = 'login.html';
+      } else {
+        alert(data.error);
+      }
+    });
+  </script>
+</body>
+</html>
