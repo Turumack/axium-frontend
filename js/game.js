@@ -4,7 +4,7 @@ let turno = 1;
 let miJugador = 1;
 
 // WebSocket al backend
-const socket = new WebSocket("wss://axium-production-3a9c.up.railway.app");
+const socket = new WebSocket("wss://axium-backend.onrender.com");
 
 socket.addEventListener("open", () => {
   console.log("🟢 Conectado al WebSocket");
