@@ -1,65 +1,103 @@
+/* General */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #1c1c2b;
-    color: #ffffff;
-    text-align: center;
-    padding: 2rem;
-  }
-  
-  a {
-    color: #9f7aea;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  form input, form button {
-    display: block;
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-    width: 200px;
-  }
-  
-  button {
-    background-color: #9f7aea;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .tablero {
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: repeat(10, 40px);
-    grid-template-rows: repeat(2, 40px);
-    gap: 4px;
-    justify-content: center;
-  }
-  
-  .casilla {
-    background-color: #333;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    position: relative;
-  }
-  
-  .ficha {
-    width: 25px;
-    height: 25px;
-    background-color: #9f7aea;
-    color: white;
-    font-size: 0.8rem;
-    position: absolute;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: translate(-50%, -50%);
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+h1, h2 {
+  color: #bb86fc;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: #bb86fc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: #bb86fc;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #9a63f6;
+}
+
+/* Formularios */
+form {
+  background-color: #1e1e2e;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 0 20px rgba(187, 134, 252, 0.1);
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.6rem 0;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #2a2a3d;
+  color: #fff;
+}
+
+input:focus {
+  outline: none;
+  border-color: #bb86fc;
+}
+
+/* Tablero de juego */
+.tablero {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(10, 40px);
+  grid-template-rows: repeat(2, 40px);
+  gap: 4px;
+  justify-content: center;
+}
+
+.casilla {
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  position: relative;
+}
+
+.ficha {
+  width: 25px;
+  height: 25px;
+  background-color: #bb86fc;
+  color: white;
+  font-size: 0.8rem;
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+}

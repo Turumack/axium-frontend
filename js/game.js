@@ -1,87 +1,68 @@
-let posicion = 0;
-let dinero = 1500;
-let turno = 1;
-let miJugador = 1;
-
-// WebSocket al backend
 const socket = new WebSocket("wss://axium-backend.onrender.com");
 
-socket.addEventListener("open", () => {
-  console.log("🟢 Conectado al WebSocket");
-  socket.send(JSON.stringify({ type: "join", playerId: miJugador }));
-});
+let currentPlayer = {
+  username: localStorage.getItem('username') || 'Jugador',
+  position: 0
+};
 
-socket.addEventListener("message", (event) => {
-  const data = JSON.parse(event.data);
+// Elementos DOM
+const tablero = document.getElementById('tablero');
+const lanzarBtn = document.getElementById('lanzarBtn');
 
-  if (data.type === "move" && data.playerId !== miJugador) {
-    moverFicha(data.playerId, data.position);
-  }
-
-  if (data.type === "turn") {
-    turno = data.nextTurn;
-    document.getElementById("turno-info").innerText = `Turno del jugador ${turno}`;
-  }
-
-  if (data.type === "system") {
-    console.log(data.message);
-  }
-});
-
-const tablero = document.getElementById("tablero");
-const botonDado = document.getElementById("lanzarDado");
-const dineroInfo = document.getElementById("dinero-info");
-
-for (let i = 0; i < 20; i++) {
-  const casilla = document.createElement("div");
-  casilla.classList.add("casilla");
-  casilla.innerText = i;
-  casilla.id = `casilla-${i}`;
+// Crear tablero básico (20 casillas por ahora)
+const casillasTotales = 20;
+for (let i = 0; i < casillasTotales; i++) {
+  const casilla = document.createElement('div');
+  casilla.classList.add('casilla');
+  casilla.textContent = i + 1;
   tablero.appendChild(casilla);
 }
 
-function moverFicha(jugador, nuevaPosicion) {
-  const fichaId = `ficha-${jugador}`;
-  let ficha = document.getElementById(fichaId);
+// Crear ficha del jugador
+const ficha = document.createElement('div');
+ficha.classList.add('ficha');
+ficha.textContent = currentPlayer.username.charAt(0).toUpperCase(); // Inicial
+tablero.children[0].appendChild(ficha);
 
-  if (!ficha) {
-    ficha = document.createElement("div");
-    ficha.id = fichaId;
-    ficha.classList.add("ficha");
-    ficha.innerText = jugador;
-    tablero.appendChild(ficha);
-  }
-
-  const casillaDestino = document.getElementById(`casilla-${nuevaPosicion}`);
-  if (casillaDestino) {
-    ficha.style.left = casillaDestino.offsetLeft + "px";
-    ficha.style.top = casillaDestino.offsetTop + "px";
-  }
+// Función para lanzar dado
+function lanzarDado() {
+  const resultado = Math.floor(Math.random() * 6) + 1;
+  alert(`${currentPlayer.username} lanzó un dado: 🎲 ${resultado}`);
+  moverFicha(resultado);
 }
 
-botonDado.addEventListener("click", () => {
-  if (turno !== miJugador) {
-    alert("No es tu turno");
-    return;
-  }
+// Mover la ficha en el tablero
+function moverFicha(pasos) {
+  // Eliminar ficha de casilla actual
+  tablero.children[currentPlayer.position].removeChild(ficha);
 
-  const dado = Math.floor(Math.random() * 6) + 1;
-  posicion = (posicion + dado) % 20;
+  // Calcular nueva posición
+  currentPlayer.position = (currentPlayer.position + pasos) % casillasTotales;
 
-  if (posicion < dado) {
-    dinero += 200; // pasó por la salida
-    dineroInfo.innerText = `Dinero: $${dinero}`;
-  }
+  // Colocar ficha en nueva casilla
+  tablero.children[currentPlayer.position].appendChild(ficha);
 
-  moverFicha(miJugador, posicion);
-
+  // Notificar al servidor (WebSocket)
   socket.send(JSON.stringify({
-    type: "move",
-    playerId: miJugador,
-    position: posicion,
-    money: dinero
+    type: 'movimiento',
+    jugador: currentPlayer.username,
+    posicion: currentPlayer.position
   }));
+}
 
-  const siguiente = miJugador === 1 ? 2 : 1;
-  socket.send(JSON.stringify({ type: "turn", nextTurn: siguiente }));
+// Evento de clic en botón
+lanzarBtn.addEventListener('click', lanzarDado);
+
+// WebSocket abierto
+socket.addEventListener('open', () => {
+  console.log("🟢 Conectado al WebSocket");
+});
+
+// WebSocket recibe mensajes
+socket.addEventListener('message', (event) => {
+  const data = JSON.parse(event.data);
+  if (data.type === 'movimiento') {
+    console.log(`${data.jugador} se movió a la casilla ${data.posicion}`);
+    // Aquí podrías actualizar otros jugadores en pantalla
+  }
 });

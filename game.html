@@ -2,22 +2,29 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>AXIUM - Juego</title>
-  <link rel="stylesheet" href="./css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AXIUM - Sala de Juego</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-  <h1>AXIUM - Tablero</h1>
+  <h1>AXIUM</h1>
+  <h2 id="userGreeting">Sala de Juego</h2>
 
-  <div id="game-info">
-    <p id="turno-info">Turno del jugador 1</p>
-    <p id="dinero-info">Dinero: $1500</p>
-    <button id="lanzarDado">Lanzar dado</button>
+  <button id="lanzarBtn">Lanzar dado 🎲</button>
+
+  <div class="tablero" id="tablero">
+    <!-- Casillas del tablero se generan desde JS -->
   </div>
 
-  <div id="tablero" class="tablero">
-    <!-- El tablero se genera dinámicamente con JS -->
-  </div>
-
-  <script src="./js/game.js" type="module"></script>
+  <script src="./js/game.js"></script>
+  <script>
+    const username = localStorage.getItem('username');
+    if (!username) {
+      alert('Debes iniciar sesión primero.');
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('userGreeting').innerText = `Jugador: ${username}`;
+    }
+  </script>
 </body>
 </html>

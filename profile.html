@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AXIUM - Perfil</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <h1>Bienvenido a AXIUM</h1>
+  <h2 id="usernameDisplay"></h2>
+
+  <div style="margin-top: 2rem;">
+    <button onclick="entrarAPartida()">Entrar a una partida</button>
+    <button onclick="cerrarSesion()" style="margin-left: 1rem;">Cerrar sesión</button>
+  </div>
+
+  <script>
+    // Mostrar el nombre del usuario desde localStorage
+    const username = localStorage.getItem('username');
+
+    if (!username) {
+      alert('No has iniciado sesión');
+      window.location.href = 'login.html';
+    } else {
+      document.getElementById('usernameDisplay').innerText = `Hola, ${username}`;
+    }
+
+    function entrarAPartida() {
+      window.location.href = 'game.html';
+    }
+
+    function cerrarSesion() {
+      localStorage.removeItem('username');
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
