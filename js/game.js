@@ -9,8 +9,8 @@ let currentPlayer = {
 const tablero = document.getElementById('tablero');
 const lanzarBtn = document.getElementById('lanzarBtn');
 
-// Crear tablero básico (20 casillas por ahora)
-const casillasTotales = 20;
+// Crear tablero básico (40 casillas por ahora)
+const casillasTotales = 40;
 for (let i = 0; i < casillasTotales; i++) {
   const casilla = document.createElement('div');
   casilla.classList.add('casilla');
