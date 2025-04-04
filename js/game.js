@@ -26,7 +26,7 @@ tablero.children[0].appendChild(ficha);
 
 // Función para lanzar dado
 function lanzarDado() {
-  const resultado = Math.floor(Math.random() * 6) + 1;
+  const resultado = Math.floor(Math.random() * 12) + 1;
   alert(`${currentPlayer.username} lanzó un dado: 🎲 ${resultado}`);
   moverFicha(resultado);
 }
